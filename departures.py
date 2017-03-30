@@ -32,11 +32,11 @@ encoding = stops.info().get_content_charset('utf8')
 stopdict = json.loads(stops_.decode(encoding))
 startID = []
 for element in stopdict:
-    if start in element['Name']:
+    if start+' ' in element['Name']:
         startID.append([str(element['ID']),element['Name']])
 
 if len(startID) == 0:
-    print('Ooops, I didn´t manage to find {}! Remember that I´m cae sensitive.'.format(start))
+    print('Ooops, I didn´t manage to find {}! Remember that I´m case sensitive.'.format(start))
 
 for stop in startID:
     file = urlopen('http://reisapi.ruter.no/StopVisit/GetDepartures/'+stop[0]+'?')
