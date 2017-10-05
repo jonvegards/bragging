@@ -55,6 +55,9 @@ C-x C-f	open new/find file
 
 >> ls -l <file or directory> | wc -l
 	count lines of file/number of files in directory
+
+>> find . -type f -name "<filename>"
+   	search for files in current directory, change <.> with name of directory you want to search in
 ```
 
 ## GitHub:
