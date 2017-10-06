@@ -1,2 +1,3 @@
-# bragging
-Repository with stuff I make either by my own or because I'm forced to do so in assignments at the uni.
+# Bragging
+
+A few scripts that may be useful for other people ð
