@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>web_visualization &#8212; assignment6_test 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="assignment6_test 1.0 documentation" href="../index.html" />
+    <link rel="up" title="Module code" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">assignment6_test 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for web_visualization</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Script for making a web page showing results from temperature_CO2_plotter.py</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">	&gt;&gt; python3 web_visualization.py</span>
+
+
+<span class="sd">6.6: Predict future. assume that temperature is roughly a linear function of CO2 emission,</span>
+<span class="sd">	estimating the coefficients of the linear function from recent data points (using</span>
+<span class="sd">	the past 2 is fine, as is using the past 10 or so if you want to be more thorough).</span>
+<span class="sd">	add an option to your web page to let the user specify how far into</span>
+<span class="sd">	the future you want to plot.</span>
+
+<span class="sd">JVS</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">Flask</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="k">import</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">send_from_directory</span><span class="p">,</span> <span class="n">url_for</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">temperature_CO2_plotter</span> <span class="k">import</span> <span class="n">TemperatureCO2Plotter</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Setting static paths so it&#39;s possible to find plots saved by Python</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="s2">&quot;TemperatureCO2Plotter&quot;</span><span class="p">)</span><span class="c1">#, static_folder=&quot;_build/html&quot;)</span>
+
+<span class="n">plot</span> <span class="o">=</span> <span class="n">TemperatureCO2Plotter</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GET&quot;</span><span class="p">])</span>
+<div class="viewcode-block" id="index_site"><a class="viewcode-back" href="../index.html#web_visualization.index_site">[docs]</a><span class="k">def</span> <span class="nf">index_site</span><span class="p">():</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Function rendering index site</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+
+	<span class="n">plot</span><span class="o">.</span><span class="n">plot_CO2</span><span class="p">()</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;static/co2.png&#39;</span><span class="p">)</span>
+	<span class="n">plot</span><span class="o">.</span><span class="n">plot_temperature</span><span class="p">()</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;static/temp.png&#39;</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span></div>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/handle_co2&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<div class="viewcode-block" id="handle_co2"><a class="viewcode-back" href="../index.html#web_visualization.handle_co2">[docs]</a><span class="k">def</span> <span class="nf">handle_co2</span><span class="p">():</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Function making a user defined plot of CO2 levels over a chosen</span>
+<span class="sd">	period of time.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">assert</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span>
+
+	<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;plots/co2_user.png&#39;</span>
+
+	<span class="n">start_year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;startyear&quot;</span><span class="p">])</span>
+	<span class="n">end_year</span>   <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;endyear&quot;</span><span class="p">])</span>
+
+	<span class="k">try</span><span class="p">:</span>
+		<span class="c1"># Optional to choose y-limits</span>
+		<span class="n">ymin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;ymin&quot;</span><span class="p">])</span>
+		<span class="n">ymax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;ymax&quot;</span><span class="p">])</span>
+		<span class="n">ylim</span> <span class="o">=</span> <span class="p">[</span><span class="n">ymin</span><span class="p">,</span><span class="n">ymax</span><span class="p">]</span>
+	<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+		<span class="n">ylim</span> <span class="o">=</span> <span class="kc">None</span>
+	
+	<span class="n">plot</span><span class="o">.</span><span class="n">plot_CO2</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">],</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;plot_user.html&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span></div>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/handle_temp&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<div class="viewcode-block" id="handle_temp"><a class="viewcode-back" href="../index.html#web_visualization.handle_temp">[docs]</a><span class="k">def</span> <span class="nf">handle_temp</span><span class="p">():</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Function making a user defined plot of temperatures from</span>
+<span class="sd">	a chosen month over a chosen period of years</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">assert</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span>
+
+	<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;plots/temp_user.png&#39;</span>
+
+	<span class="n">start_year</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;startyear&quot;</span><span class="p">])</span>
+	<span class="n">end_year</span>   <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;endyear&quot;</span><span class="p">])</span>
+	<span class="n">month</span>	   <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;month&quot;</span><span class="p">])</span>
+	<span class="k">try</span><span class="p">:</span>
+		<span class="c1"># Optional to choose y-limits</span>
+		<span class="n">ymin</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;ymin&quot;</span><span class="p">])</span>
+		<span class="n">ymax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;ymax&quot;</span><span class="p">])</span>
+		<span class="n">ylim</span> <span class="o">=</span> <span class="p">[</span><span class="n">ymin</span><span class="p">,</span><span class="n">ymax</span><span class="p">]</span>
+	<span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+		<span class="n">ylim</span> <span class="o">=</span> <span class="kc">None</span>
+
+	<span class="n">plot</span><span class="o">.</span><span class="n">plot_temperature</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="p">[</span><span class="n">start_year</span><span class="p">,</span> <span class="n">end_year</span><span class="p">],</span> <span class="n">month</span><span class="o">=</span><span class="n">month</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;plot_user.html&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span></div>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s2">&quot;/handle_emissions&quot;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
+<div class="viewcode-block" id="handle_emissions"><a class="viewcode-back" href="../index.html#web_visualization.handle_emissions">[docs]</a><span class="k">def</span> <span class="nf">handle_emissions</span><span class="p">():</span>
+	<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">	Function generating a user defined plot of emission by</span>
+<span class="sd">	countries between possibly chosen treshold values.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">assert</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span>
+
+	<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;plots/emissions_user.png&#39;</span>
+
+	<span class="n">year</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;year&quot;</span><span class="p">])</span>
+
+	<span class="n">upper_threshold</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;upperthreshold&quot;</span><span class="p">])</span>
+	<span class="n">lower_threshold</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="p">[</span><span class="s2">&quot;lowerthreshold&quot;</span><span class="p">])</span>
+	<span class="n">plot</span><span class="o">.</span><span class="n">plot_CO2_by_country</span><span class="p">(</span><span class="n">threshold_u</span><span class="o">=</span><span class="n">upper_threshold</span><span class="p">,</span> <span class="n">threshold_l</span><span class="o">=</span><span class="n">lower_threshold</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="n">year</span><span class="p">)</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;plot_user.html&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+	<span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">assignment6_test 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Jon Vegard Sparre.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.8.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>temperature_CO2_plotter &#8212; Assignment 6 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="top" title="Assignment 6 1.0 documentation" href="../help.html" />
+    <link rel="up" title="Module code" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for temperature_CO2_plotter</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. 	module:: temperature_CO2_plotter</span>
+<span class="sd">	:platform: OS X</span>
+<span class="sd">	:synopsis: Solution to 6.1, 6.4, 6.6</span>
+
+<span class="sd">.. moduleauthor:: Jon Vegard Sparre</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="TemperatureCO2Plotter"><a class="viewcode-back" href="../help.html#temperature_CO2_plotter.TemperatureCO2Plotter">[docs]</a><span class="k">class</span> <span class="nc">TemperatureCO2Plotter</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39;Methods:</span>
+
+<span class="sd">	- plot_temperature(ylim=None, month=&#39;January&#39;, years=None)</span>
+<span class="sd">	- plot_CO2(ylim=None, years=None)</span>
+<span class="sd">	- plot_CO2_by_country(threshold_l=0., threshold_u=1000., year=&#39;2012&#39;)</span>
+<span class="sd">	- predict_future(endyear=2021, month=&#39;July&#39;)</span>
+
+<span class="sd">	Usage:</span>
+
+<span class="sd">	&gt;&gt;&gt; from temperature_CO2_plotter import TemperatureCO2Plotter</span>
+<span class="sd">	&gt;&gt;&gt; plot = TemperatureCO2Plotter()</span>
+
+<span class="sd">	Now you can use the different methods, see below.</span>
+<span class="sd">	</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;Fetching path</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TemperatureCO2Plotter.plot_CO2"><a class="viewcode-back" href="../help.html#temperature_CO2_plotter.TemperatureCO2Plotter.plot_CO2">[docs]</a>	<span class="k">def</span> <span class="nf">plot_CO2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">		Plot CO2 levels over time with data from data/co2.csv</span>
+
+<span class="sd">		Kwargs:</span>
+<span class="sd">			ylim 	(list):	Set limits on y-axis as a tuple (ymin,ymax)</span>
+<span class="sd">			year	(list):	Set time interval as a list [startyear, endyear]</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			0</span>
+
+<span class="sd">		Usage:</span>
+
+<span class="sd">		&gt;&gt;&gt; plot = TemperatureCO2Plotter()</span>
+<span class="sd">		&gt;&gt;&gt; plot.plot_CO2()</span>
+
+<span class="sd">		Then you&#39;ll get a plot over all CO2 emissions from the start of measurements until 2012.</span>
+<span class="sd">		</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+
+		<span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+
+		<span class="n">df_co2</span>  <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="o">+</span><span class="s1">&#39;/data/co2.csv&#39;</span><span class="p">)</span>
+
+		<span class="k">if</span> <span class="n">years</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>							<span class="c1"># Setting default time period if none is given</span>
+			<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">df_co2</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_co2</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+		<span class="n">df_co2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">ylim</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+			<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;CO2 level&#39;</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;CO2 levels over time, from </span><span class="si">{}</span><span class="s1"> to </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+
+		<span class="k">return</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="TemperatureCO2Plotter.plot_temperature"><a class="viewcode-back" href="../help.html#temperature_CO2_plotter.TemperatureCO2Plotter.plot_temperature">[docs]</a>	<span class="k">def</span> <span class="nf">plot_temperature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="s1">&#39;January&#39;</span><span class="p">,</span> <span class="n">years</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">		Plot temperature over time with data from temperature.csv</span>
+<span class="sd">		You can choose which time interval to plot and the limits on the y-axis.</span>
+
+<span class="sd">		Kwargs:</span>
+<span class="sd">			ylim	(list):	Set limits on y-axis as a list [ymin,ymax]</span>
+<span class="sd">			month	(str):	Set which month to plot temperatures form, default: January</span>
+<span class="sd">			years	(list):	Set years to plot over as a list [start year, end year]</span>
+<span class="sd">		Returns:</span>
+<span class="sd">			0</span>
+
+<span class="sd">		Usage:</span>
+
+<span class="sd">		&gt;&gt;&gt; plot = TemperatureCO2Plotter()</span>
+<span class="sd">		&gt;&gt;&gt; plot.plot_temperature()</span>
+
+<span class="sd">		This gives a plot over temperatures in January from start of measurements until 2012</span>
+<span class="sd">		</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+
+		<span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+
+		<span class="n">df_temp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/data/temperature.csv&#39;</span><span class="p">)</span>
+		
+		<span class="k">if</span> <span class="n">years</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>							<span class="c1"># Setting default time period if none is given</span>
+			<span class="n">years</span> <span class="o">=</span> <span class="p">[</span><span class="n">df_temp</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">df_temp</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+		<span class="k">if</span> <span class="n">ylim</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>							<span class="c1"># Setting limits on y-axis if none is given</span>
+			<span class="n">ylim</span> <span class="o">=</span> <span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">df_temp</span><span class="p">[</span><span class="n">month</span><span class="p">])</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="nb">max</span><span class="p">(</span><span class="n">df_temp</span><span class="p">[</span><span class="n">month</span><span class="p">])</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+		<span class="n">df_temp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">month</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Temperatures from </span><span class="si">{}</span><span class="s1">, </span><span class="si">{}</span><span class="s1"> to </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">month</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">int</span><span class="p">(</span><span class="n">years</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Temperature&#39;</span><span class="p">)</span>
+
+		<span class="k">return</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="TemperatureCO2Plotter.plot_CO2_by_country"><a class="viewcode-back" href="../help.html#temperature_CO2_plotter.TemperatureCO2Plotter.plot_CO2_by_country">[docs]</a>	<span class="k">def</span> <span class="nf">plot_CO2_by_country</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold_l</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">threshold_u</span><span class="o">=</span><span class="mf">1000.</span><span class="p">,</span> <span class="n">year</span><span class="o">=</span><span class="s1">&#39;2012&#39;</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">		Make a plot over emissions by each country for a given year.</span>
+
+<span class="sd">		Kwargs:</span>
+<span class="sd">			threshold_l	(float):	lower threshold value of emissions</span>
+<span class="sd">			threshold_u	(float):	upper threshold value of emissions</span>
+<span class="sd">			year	(str):	year to plot</span>
+
+<span class="sd">		Usage:</span>
+
+<span class="sd">		&gt;&gt;&gt; plot = TemperatureCO2Plotter()</span>
+<span class="sd">		&gt;&gt;&gt; plot.plot_CO2_by_country()</span>
+
+<span class="sd">		This gives a bar plot over emissions from all countries in 2012.</span>
+
+<span class="sd">		.. 	note::</span>
+<span class="sd">			</span>
+<span class="sd">			The default plot will not be so very readable, we recommend setting some threshold values.</span>
+<span class="sd">		</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+
+		<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/data/CO2_by_country.csv&#39;</span><span class="p">)</span>
+
+		<span class="c1"># Using pandas to find all countries with emissions between chosen thresholds</span>
+		<span class="c1"># threshold and then plotting the result</span>
+		<span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">year</span><span class="p">]</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="n">threshold_l</span><span class="p">)]</span>
+		<span class="n">temp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">year</span><span class="p">]</span><span class="o">.</span><span class="n">lt</span><span class="p">(</span><span class="n">threshold_u</span><span class="p">)]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">year</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span>
+
+		<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Emissions by country between </span><span class="si">{}</span><span class="s1"> and </span><span class="si">{}</span><span class="s1"> metric tons per capita in </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">threshold_l</span><span class="p">,</span> <span class="n">threshold_u</span><span class="p">,</span> <span class="n">year</span><span class="p">))</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Country&#39;</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Emissions&#39;</span><span class="p">)</span>
+
+		<span class="k">return</span> <span class="mi">0</span></div>
+
+<div class="viewcode-block" id="TemperatureCO2Plotter.predict_future"><a class="viewcode-back" href="../help.html#temperature_CO2_plotter.TemperatureCO2Plotter.predict_future">[docs]</a>	<span class="k">def</span> <span class="nf">predict_future</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">endyear</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span> <span class="n">month</span><span class="o">=</span><span class="s1">&#39;July&#39;</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">		Predict the future by extrapolating from current dataset.</span>
+
+<span class="sd">		Kwargs:</span>
+<span class="sd">			endyear	(int):	how far into the future do you want to extrapolate?</span>
+<span class="sd">			month(str):	for which month do you want to extrapolate?</span>
+
+<span class="sd">		Returns:</span>
+<span class="sd">			0</span>
+
+<span class="sd">		Usage:</span>
+
+<span class="sd">		&gt;&gt;&gt; plot = TemperatureCO2Plotter()</span>
+<span class="sd">		&gt;&gt;&gt; plot.predict_future(endyear=2030, month=&#39;June&#39;)</span>
+
+<span class="sd">		This gives a plot of temperature over all years with measurements</span>
+<span class="sd">		and an extrapolation of the data into 2030.</span>
+
+<span class="sd">		&quot;&quot;&quot;</span>
+
+		<span class="c1"># Using a module from scipy to do the interpolation</span>
+		<span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="k">import</span> <span class="n">UnivariateSpline</span>
+		<span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span>
+
+		<span class="n">temp_data</span> 	<span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/data/temperature.csv&#39;</span><span class="p">)</span>
+		<span class="n">CO2_data</span> 	<span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/data/CO2.csv&#39;</span><span class="p">)</span>
+		
+		<span class="c1"># No of previous 	years to take into account</span>
+		<span class="n">no</span> <span class="o">=</span> <span class="mi">10</span>
+		<span class="c1"># Read out data from 2002-2012:</span>
+		<span class="n">last_years</span> 	<span class="o">=</span> <span class="n">temp_data</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="n">no</span><span class="p">)[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span>
+		<span class="n">last_year</span> 	<span class="o">=</span> <span class="n">last_years</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+		<span class="c1"># Temperatures last ten years for chosen month</span>
+		<span class="n">temp_month</span>	<span class="o">=</span> <span class="n">temp_data</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="n">no</span><span class="p">)[</span><span class="n">month</span><span class="p">]</span>
+		<span class="c1"># CO2 levels last ten years</span>
+		<span class="n">CO2_levels</span>	<span class="o">=</span> <span class="n">CO2_data</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="n">no</span><span class="p">)[</span><span class="s1">&#39;Carbon&#39;</span><span class="p">]</span>
+		<span class="c1"># Constant future rate of increasing CO2 emission based on the diff last two years</span>
+		<span class="n">CO2_diff</span> 	<span class="o">=</span> <span class="n">CO2_levels</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">CO2_levels</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+		<span class="c1"># Array for extrapolating and no of years into the future</span>
+		<span class="n">no_years</span>	<span class="o">=</span> <span class="n">endyear</span> <span class="o">-</span> <span class="n">last_year</span> <span class="o">+</span> <span class="mi">1</span>
+		<span class="n">future</span>		<span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">last_year</span><span class="p">,</span> <span class="n">endyear</span><span class="p">,</span> <span class="n">no_years</span><span class="p">)</span>
+		<span class="n">future_CO2</span>	<span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">CO2_levels</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">CO2_levels</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">no_years</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">CO2_diff</span><span class="p">,</span> <span class="n">no_years</span><span class="p">)</span>
+		<span class="c1"># spline order for interpolating, choosing 1 to get a linear extrapolation</span>
+		<span class="n">order</span> 		<span class="o">=</span> <span class="mi">1</span>
+		<span class="c1"># interpolate and then using future_CO2 array to extrapolate</span>
+		<span class="n">s</span> <span class="o">=</span> <span class="n">UnivariateSpline</span><span class="p">(</span><span class="n">CO2_levels</span><span class="p">,</span> <span class="n">temp_month</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+		<span class="n">y</span> <span class="o">=</span> <span class="n">s</span><span class="p">(</span><span class="n">future_CO2</span><span class="p">)</span>
+
+		<span class="c1"># plotting past temperatures and future temperatures (in different styles)</span>
+		<span class="n">temp_data</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">month</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">hold</span><span class="p">(</span><span class="s1">&#39;on&#39;</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">future</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Temperature&#39;</span><span class="p">)</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Future temperatures into </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">endyear</span><span class="p">))</span>
+		<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">temp_data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">future</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+		<span class="k">return</span> <span class="mi">0</span></div></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+	<span class="c1"># Run all methods and save plot from each</span>
+	<span class="n">plot</span> <span class="o">=</span> <span class="n">TemperatureCO2Plotter</span><span class="p">()</span>
+	<span class="n">plot</span><span class="o">.</span><span class="n">plot_CO2</span><span class="p">()</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;co2.png&#39;</span><span class="p">)</span>
+	<span class="n">plot</span><span class="o">.</span><span class="n">plot_temperature</span><span class="p">()</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;temp.png&#39;</span><span class="p">)</span>
+	<span class="n">plot</span><span class="o">.</span><span class="n">plot_CO2_by_country</span><span class="p">()</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;emissions.png&#39;</span><span class="p">)</span>
+	<span class="n">plot</span><span class="o">.</span><span class="n">predict_future</span><span class="p">()</span>
+	<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;future.png&#39;</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Saved plots as co2.png, temp.png, emissions.png, and future.png&#39;</span><span class="p">)</span>
+	<span class="c1">#plt.show()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../help.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Jon Vegard Sparre.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

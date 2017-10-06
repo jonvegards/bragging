@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+  <!-- The head tag contains header information about the HTML document. -->
+  <head>
+    <title>Error</title>
+    <style>
+	body
+	{
+	font-family:sans-serif;
+	}
+	</style>
+  </head>
+
+  <!-- The body tag contains the content of the HTML document. -->
+  <body>
+    <!-- Add your content here -->
+    <h1> {{ headline }} </h1>
+    <p> {{ message }} </p>
+  </body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+  <!-- The head tag contains header information about the HTML document. -->
+  <head>
+    <title>CO2 and temperature plot</title>
+    <style>
+	body
+	{
+	font-family:sans-serif;
+	}
+	</style>
+  </head>
+
+  <!-- The body tag contains the content of the HTML document. -->
+  <body>
+    <!-- Add your content here -->
+    <h1> {{ headline }} </h1>
+    <figure>
+      <img src="{{ url_for('_fig', filename = filename) }}" alt="Plot" style="width:600px;">
+    	<!-- <figcaption>CO<sub>2</sub> levels</figcaption> -->
+	</figure>
+  </body>
+
+</html>

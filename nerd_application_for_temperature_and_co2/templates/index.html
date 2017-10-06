@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+  <!-- The head tag contains header information about the HTML document. -->
+  <head>
+    <title>CO2 and temperature plot</title>
+    <style>
+	body
+	{
+		font-family:Arial, Helvetica;
+		font-size: 10pt;
+	}
+	h1
+	{
+		font-family: Verdana;
+		font-size: 30pt;	
+	}
+	</style>
+  </head>
+
+  <!-- The body tag contains the content of the HTML document. -->
+  <body style="width:600px;" align="padding-right:300px;">
+    <!-- Add your content here -->
+    <h1>CO<sub>2</sub>-levels and temperature</h1>
+    <p>Help page for script can be found <a href="{{ url_for('_help', filename='help.html') }}">here</a>.</p>
+    <p>Below we see carbon levels and temperature plotted over a given period of time.</p>
+    <figure align="center">
+    	<img src="/static/co2.png" alt="Plot CO2" style="width:600px;">
+    	<figcaption>CO<sub>2</sub>-plot</figcaption>
+	    <img src="/static/temp.png" alt="Plot temperature" style="width:600px;">
+	    <figcaption>Temp-plot</figcaption>
+    </figure>
+    <h2>User defined plots</h2>
+    <p>Below you can plot the CO<sub>2</sub> levels, temperatures and emissions from each country by defining a time period, limits on y-axis and more. All fields are required, fields with predefined values can be changed to lower/higher values, the maximum/minimum values are given in the field. Months are given on the form January.</p>
+    <h3>User defined plot of CO<sub>2</sub> levels</h3>
+    <form action='handle_co2' method='post'>
+	  Start year:<br>
+	  <input type="text" name="startyear" value="1751">
+	  <br>
+	  End year:<br>
+	  <input type="text" name="endyear" value="2012">
+	  <br>
+	  Y-max:<br>
+	  <input type="text" name="ymax">
+	  <br>
+	  Y-min:<br>
+	  <input type="text" name="ymin" value="0">
+	  <br>
+	  <input type="submit" value="Submit">
+	</form>
+	<h3>User defined plot of temperature</h3>
+	<form action='handle_temp' method='post'>
+	  Start year:<br>
+	  <input type="text" name="startyear" value="1816">
+	  <br>
+	  End year:<br>
+	  <input type="text" name="endyear" value="2012">
+	  <br>
+	  Month:<br>
+	  <input type="text" name="month">
+	  <br>
+	  Y-max:<br>
+	  <input type="text" name="ymax" value="30">
+	  <br>
+	  Y-min:<br>
+	  <input type="text" name="ymin" value="0">
+	  <br>
+	  <input type="submit" value="Submit">
+	</form>
+	<h3>User defined plot of emissions</h3>
+	<p>Type in year and threshold values to get a plot showing emission by country.</p>
+	<form action='handle_emissions' method='post'>
+	  Year*:<br>
+	  <input type="text" name="year">
+	  <br>
+	  Upper threshold:<br>
+	  <input type="text" name="upperthreshold" value="100.">
+	  <br>
+	  Lower threshold:<br>
+	  <input type="text" name="lowerthreshold" value="0.0">
+	  <br>
+	  <input type="submit" value="Submit">
+	</form>
+	<h3>User defined plot of future temperatures</h3>
+	<p>Type in end year and month to get a plot showing future temperatures.</p>
+	<form action='handle_future' method='post'>
+	  End year:<br>
+	  <input type="text" name="endyear">
+	  <br>
+	  Month:<br>
+	  <input type="text" name="month">
+	  <br>
+	  <input type="submit" value="Submit">
+	</form>
+  </body>
+
+</html>
