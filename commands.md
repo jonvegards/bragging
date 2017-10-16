@@ -58,6 +58,12 @@ C-x C-f	open new/find file
 
 >> find . -type f -name "<filename>"
    	search for files in current directory, change <.> with name of directory you want to search in
+
+>> grep 'word' filename1 [filename2 ...]
+    search for 'word' in filename1 [filename2 ...]
+    options: --color : highlights the search word)
+             -n      : print the line number where search word was found
+             -v      : invert the match, print lines that do not contain search word
 ```
 
 ## GitHub:
