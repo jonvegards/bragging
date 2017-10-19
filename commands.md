@@ -77,3 +77,24 @@ C-x C-f	open new/find file
 >> git pull
    Downloads new/edited files from git to computer
 ```
+
+## Abel:
+```
+>> beegfs-ctl --userstats --names --mount=<mount>
+   view the file writing load on --mount=/work or --mount=/cluster
+
+>> sbatch job_script
+   start new job with job script
+
+>> squeue -l -u [username]
+   view all your jobs running/pending
+
+>> scontrol show job [job id number]
+   info about your job
+
+>> scancel [job id number]
+   kill job
+
+>> qsumm -g
+   view workload on Abel
+```
