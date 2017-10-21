@@ -64,6 +64,9 @@ C-x C-f	open new/find file
     options: --color : highlights the search word)
              -n      : print the line number where search word was found
              -v      : invert the match, print lines that do not contain search word
+
+>> find folder2 -name '*.*' | xargs mv --target-directory=folder1
+    move all files from folder2 to folder1
 ```
 
 ## GitHub:
