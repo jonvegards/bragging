@@ -109,3 +109,9 @@ C-x C-f	open new/find file
 >> qsumm -g
    view workload on Abel
 ```
+
+## iPython
+```
+>> %prun <command>
+   profiling <command>
+```
