@@ -110,8 +110,12 @@ C-x C-f	open new/find file
    view workload on Abel
 ```
 
-## iPython
-```
+## iPython/Python
+```python
 >> %prun <command>
    profiling <command>
+
+>> import warnings
+>> warnings.filterwarnings("ignore")
+   silence warnings
 ```
