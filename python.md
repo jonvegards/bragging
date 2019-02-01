@@ -1,9 +1,13 @@
 # iPython/Python related commands
 
+Profiling functions/commands in Python.
 ```python
 >> %prun <command>
    profiling <command>
+```
 
+Silence warnings
+```python
 >> import warnings
 >> warnings.filterwarnings("ignore")
    silence warnings
