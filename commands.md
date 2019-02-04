@@ -1,16 +1,6 @@
 # Commands that are handy to remember
 
-## Emacs:
-```
-C-a	go to beginning of line
-C-a	go to end of line
-M-w	copy
-C-w cut
-C-y	paste
-C-space mark text
-C-x b	change buffer file
-C-x C-f	open new/find file
-```
+About versioning code: https://semver.org
 
 ## Terminal
 ```
@@ -108,14 +98,4 @@ C-x C-f	open new/find file
 
 >> qsumm -g
    view workload on Abel
-```
-
-## iPython/Python
-```python
->> %prun <command>
-   profiling <command>
-
->> import warnings
->> warnings.filterwarnings("ignore")
-   silence warnings
 ```

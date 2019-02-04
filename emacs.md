@@ -3,7 +3,7 @@ Useful(?) web pages about Emacs:
 - https://www.gnu.org/software/emacs/tour/
 
 | How | What |
-|----------+-----------|
+|-----|------|
 |`C-a` | go to beginning of line|
 |`C-a` | go to end of line|
 |`M-w` | copy|
