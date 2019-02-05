@@ -42,10 +42,14 @@ Useful(?) web pages about Emacs:
 
 When inside the Magit status windows navigate up and down and press `s` (`u`) for staging (unstaging) files. Press `c` twice to write commit message. `C-c C-c` are used for committing the commit message. Finally use `P u` for pushing the commit to `origin/master`.
 
-| How         | What                           |
-|-------------|--------------------------------|
-| `C-x g`     | Magit status.                  |
-| `C-c g s`   | Stage changes at current line. |
-| `C-c g c c` | Open commit message window.    |
-| `C-c C-c`   | Commit the commit message.     |
-|             |                                |
+| How                        | What                           |
+|----------------------------|--------------------------------|
+| `C-x g`                    | Magit status frame.            |
+
+| When in Magit status frame |                                 |
+|----------------------------|---------------------------------|
+| `s`                        | Stage changes at current line.  |
+| `c c`                      | Open commit message window.     |
+| `C-c C-c`                  | Commit the commit message.      |
+| `P u`                      | Push commit to upstream branch. |
+|                            |                                 |
