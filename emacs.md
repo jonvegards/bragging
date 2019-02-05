@@ -18,6 +18,7 @@ Useful(?) web pages about Emacs:
 
 
 ## Org-mode
+
 | How         | What                                                     |
 |-------------|----------------------------------------------------------|
 | `C-c s`     | Write new note                                           |
@@ -25,6 +26,8 @@ Useful(?) web pages about Emacs:
 | `C-c .`     | Open calendar for setting a timestamp                    |
 | `C-c C-x p` | Set a property for a todo-entry                          |
 | `C-c C-c`   | Toggle checkbox (cursor at same line as checkbox)        |
+| `C-c c t`   | Write a new todo                                         |
+|             |                                                          |
 
 
 ## Markdown
@@ -37,7 +40,12 @@ Useful(?) web pages about Emacs:
 
 ## Magit
 
-| How     | What         |
-|---------|--------------|
-| `C-x g` | Magit status |
-|         |              |
+When inside the Magit status windows navigate up and down and press `s` (`u`) for staging (unstaging) files. Press `c` twice to write commit message. `C-c C-c` are used for committing the commit message. Finally use `P u` for pushing the commit to `origin/master`.
+
+| How         | What                           |
+|-------------|--------------------------------|
+| `C-x g`     | Magit status.                  |
+| `C-c g s`   | Stage changes at current line. |
+| `C-c g c c` | Open commit message window.    |
+| `C-c C-c`   | Commit the commit message.     |
+|             |                                |
