@@ -5,7 +5,8 @@ Profiling functions/commands in Python.
 >> %prun <command>
    profiling <command>
 ```
-
+| Cmd           | Description                        |
+|---------------|------------------------------------|
 | `Enter`       | enter edit mode                    |
 | `Shift­Enter` | run cell, select below             |
 | `Ctrl-Enter`  | run cell                           |
