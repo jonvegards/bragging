@@ -21,13 +21,13 @@ Useful(?) web pages about Emacs:
 
 | How         | What                                                     |
 |-------------|----------------------------------------------------------|
-| `C-c s`     | Write new note                                           |
+| `C-c c`     | Write new note                                           |
 | `C-x TAB`   | indent marked region with `LEFT, RIGHT, S+LEFT, S+RIGHT` |
 | `C-c .`     | Open calendar for setting a timestamp                    |
 | `C-c C-x p` | Set a property for a todo-entry                          |
 | `C-c C-c`   | Toggle checkbox (cursor at same line as checkbox)        |
 | `C-c c t`   | Write a new todo                                         |
-|             |                                                          |
+
 
 
 ## Markdown
@@ -36,6 +36,7 @@ Useful(?) web pages about Emacs:
 |----------------|---------------------------------------------------------|
 | `C-c S-<DOWN>` | Insert row above in table                               |
 | `TAB`          | Jump to next cell, and create new row if at the bottom. |
+| `C-c C-s c`    | Insert code                                             |
 |                |                                                         |
 
 ## Magit
