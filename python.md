@@ -5,6 +5,7 @@ Profiling functions/commands in Python.
 >> %prun <command>
    profiling <command>
 ```
+## Keyboard shortcuts in Jupyter
 | Cmd           | Description                        |
 |---------------|------------------------------------|
 | `Enter`       | enter edit mode                    |
@@ -37,6 +38,29 @@ Profiling functions/commands in Python.
 | `Shift­Space` | scroll up                          |
 | `Shift`       | ignore                             |
 
+When using jupyter it's possible to do the programming in an IDE while you run the code in jupyter, see
+https://medium.com/@rrfd/cookiecutter-data-science-organize-your-projects-atom-and-jupyter-2be7862f487e
+By using
+```python
+%load_ext autoreload
+%autoreload 2
+```
+Jupyter will reload the module everytime before running the code.
+
+### R in Jupyter
+Assuming `python`, `jupyter`, and `R`  are installed with `brew`, the way to gey `R` into `jupyter notebook` is to run
+```bash
+>> brew install zmq
+```
+And then open `R` and install
+```r
+install.packages(c('rzmq','repr','IRkernel','IRdisplay'),
+                 repos = c('http://irkernel.github.io/', 
+                           getOption('repos')), 
+                 type = 'source')
+IRkernel::installspec(user = FALSE)
+```
+
 # General `Python`
 Silence warnings
 ```python
@@ -55,12 +79,3 @@ trusted-host=
 	files.pythonhosted.org
 ```
 Should be placed in `C:users/username/appdata/roaming/pip`.
-
-When using jupyter it's possible to do the programming in an IDE while you run the code in jupyter, see
-https://medium.com/@rrfd/cookiecutter-data-science-organize-your-projects-atom-and-jupyter-2be7862f487e
-By using
-```python
-%load_ext autoreload
-%autoreload 2
-```
-Jupyter will reload the module everytime before running the code.
