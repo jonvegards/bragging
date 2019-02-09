@@ -61,6 +61,9 @@ install.packages(c('rzmq','repr','IRkernel','IRdisplay'),
 IRkernel::installspec(user = FALSE)
 ```
 
+### Links to stuff about Jupyter
+- https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/
+
 # General `Python`
 Silence warnings
 ```python
