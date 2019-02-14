@@ -1,7 +1,0 @@
-# Powershell
-
-Note: I don't know how to write `|` in a Markdown-table, so I'll just write `<v-bar>` instead. 
-
-| Cmd                             | What it does                              |
-|---------------------------------|-------------------------------------------|
-| `dir <v-bar> Get-Member` | List all available cmds in current dir(?) |
