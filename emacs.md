@@ -27,6 +27,10 @@ Useful(?) web pages about Emacs:
 | `C-c C-x p` | Set a property for a todo-entry                          |
 | `C-c C-c`   | Toggle checkbox (cursor at same line as checkbox)        |
 | `C-c c t`   | Write a new todo                                         |
+| `C-u C-c`   | Create timestamp                                         |
+| `C-c s`     | Schedule a todo entry                                    |
+| `C-c d`     | Set a deadline for a todo entry                          |
+|             |                                                          |
 
 
 
