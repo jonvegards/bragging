@@ -77,6 +77,8 @@ About versioning code: https://semver.org
    Downloads new/edited files from git to computer
 >> git filter-branch --force --index-filter "git rm --cached --ignore-unmatch <path/filename>" --prune-empty --tag-name-filter cat -- --all
    Remove file from history, useful when you add files larger than 100MB by accident.
+>> git config --list --show-origin
+   Show where config-files for git are saved.
 ```
 
 ## Abel:

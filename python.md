@@ -82,3 +82,13 @@ trusted-host=
 	files.pythonhosted.org
 ```
 Should be placed in `C:users/username/appdata/roaming/pip`.
+
+Build setuptools project:
+```
+python setup.py sdist bdist_wheel
+```
+
+Generate a virtual environment
+```
+python3 -m venv /path/to/new/virtual/environment
+```

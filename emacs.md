@@ -4,16 +4,18 @@ Useful(?) web pages about Emacs:
 
 ## General
 
-| How       | What                    |
-|-----------|-------------------------|
-| `C-a`     | go to beginning of line |
-| `C-a`     | go to end of line       |
-| `M-w`     | copy                    |
-| `C-w`     | cut                     |
-| `C-y`     | paste                   |
-| `C-space` | mark text               |
-| `C-x b`   | change buffer file      |
-| `C-x C-f` | open new/find file      |
+| How       | What                                                                            |
+|-----------|---------------------------------------------------------------------------------|
+| `C-a`     | go to beginning of line                                                         |
+| `C-a`     | go to end of line                                                               |
+| `M-w`     | copy                                                                            |
+| `C-w`     | cut                                                                             |
+| `C-y`     | paste                                                                           |
+| `C-space` | mark text                                                                       |
+| `C-x b`   | change buffer file                                                              |
+| `C-x C-f` | open new/find file                                                              |
+| `C-c m c` | use multiple cursors (you must mark a region in the file before using this cmd) |
+|           |                                                                                 |
 
 
 
@@ -58,3 +60,7 @@ When inside the Magit status windows navigate up and down and press `s` (`u`) fo
 | `C-c C-c`                  | Commit the commit message.      |
 | `P u`                      | Push commit to upstream branch. |
 |                            |                                 |
+
+
+## Miscellaneous links and info
+- http://pragmaticemacs.com/emacs/multiple-cursors/
