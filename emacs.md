@@ -15,6 +15,9 @@ Useful(?) web pages about Emacs:
 | `C-x b`   | change buffer file                                                              |
 | `C-x C-f` | open new/find file                                                              |
 | `C-c m c` | use multiple cursors (you must mark a region in the file before using this cmd) |
+| `C-x o`   | Select other window.                                                            |
+| `C-v`     | View next screen (scroll down)                                                  |
+| `M-V`     | View previous screen (scroll up)                                                |
 |           |                                                                                 |
 
 
@@ -34,7 +37,7 @@ Useful(?) web pages about Emacs:
 | `C-c d`     | Set a deadline for a todo entry                          |
 |             |                                                          |
 
-
+Docs: https://orgmode.org/org.html
 
 ## Markdown
 
@@ -61,6 +64,7 @@ When inside the Magit status windows navigate up and down and press `s` (`u`) fo
 | `P u`                      | Push commit to upstream branch. |
 |                            |                                 |
 
+Docs: https://magit.vc/manual/magit.html
 
 ## Miscellaneous links and info
 - http://pragmaticemacs.com/emacs/multiple-cursors/

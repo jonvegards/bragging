@@ -5,6 +5,9 @@ Profiling functions/commands in Python.
 >> %prun <command>
    profiling <command>
 ```
+
+In `iPython` you can use bash-cmds as `ls`, `pwd`, ...
+
 ## Keyboard shortcuts in Jupyter
 | Cmd           | Description                        |
 |---------------|------------------------------------|
@@ -67,9 +70,8 @@ IRkernel::installspec(user = FALSE)
 # General `Python`
 Silence warnings
 ```python
->> import warnings
->> warnings.filterwarnings("ignore")
-   silence warnings
+import warnings
+warnings.filterwarnings("ignore")
 ```
 
 Config of pip with `pip.ini` file:
