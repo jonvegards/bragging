@@ -66,6 +66,7 @@ IRkernel::installspec(user = FALSE)
 
 ### Links to stuff about Jupyter
 - https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/
+- https://towardsdatascience.com/optimizing-jupyter-notebook-tips-tricks-and-nbextensions-26d75d502663
 
 # General `Python`
 Silence warnings

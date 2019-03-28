@@ -62,6 +62,9 @@ About versioning code: https://semver.org
 
 >> tail -n <number>
 	show the <number> last lines of sth
+	
+>> for i in $files; do sed 1d "$i" >> <new-file>; done
+	merge all files listed in $files into one new file.
 
 ```
 
