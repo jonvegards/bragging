@@ -150,7 +150,7 @@ Useful(?) web pages about Emacs:
 | `C-u C-c`   | Create timestamp                                         |
 | `C-c s`     | Schedule a todo entry                                    |
 | `C-c d`     | Set a deadline for a todo entry                          |
-|             |                                                          |
+| `C-c C-e`   | Export-mode window is opened                             |
 
 Docs: https://orgmode.org/org.html
 
@@ -291,3 +291,23 @@ python3 -m venv /path/to/new/virtual/environment
 ```
 
 # R
+
+## Basic commands
+
+| Cmd                                 | What                                                        |
+|-------------------------------------|-------------------------------------------------------------|
+| `setwd('')`                         | Change directory                                            |
+| `getwd('')`                         | Get current directory                                       |
+| `library('<bibliotek>')`            | Load library                                                |
+| `colnames(<dataframe>)`             | Print name of columns in dataframe                          |
+| `factors <- sapply(ods, is.factor)` | Return a boolean array indicating categorical data in `ods` |
+| `system.time()`                     | Time execution of function/script                           |
+
+- Lage en liste: `vars_cat = c('val', 'val2', ...)`
+- Konverterer kolonnene `vars_cat` i datasettet `ods` til kategoriske variable: `ods[vars_cat] <- lapply(ods[vars_cat], as.factor)`
+
+## Installing packages
+
+Set an option before installing: `options(download.file.method = "libcurl")`
+
+Install-cmd: `install.packages("<package>", repos="https://nexus-r.adeo.no/repository/cran.r-project.org/")`
