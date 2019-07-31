@@ -290,6 +290,13 @@ Generate a virtual environment
 python3 -m venv /path/to/new/virtual/environment
 ```
 
+Read `7z`-files (@ Engel 1)
+```
+cmd = r'C:\\Program Files\\7-Zip\\7z.exe x -y -p<password>  <filename>.7z'
+file = subprocess.call(shlex.split(cmd))
+```
+(`-y` = assume yes on all queries.)
+
 # R
 
 ## Basic commands
