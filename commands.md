@@ -244,7 +244,7 @@ By using
 ```
 Jupyter will reload the module everytime before running the code.
 
-### R in Jupyter
+## R in Jupyter
 Assuming `python`, `jupyter`, and `R`  are installed with `brew`, the way to gey `R` into `jupyter notebook` is to run
 ```bash
 >> brew install zmq
@@ -258,11 +258,11 @@ install.packages(c('rzmq','repr','IRkernel','IRdisplay'),
 IRkernel::installspec(user = FALSE)
 ```
 
-### Links to stuff about Jupyter
+## Links to stuff about Jupyter
 - https://www.dataquest.io/blog/jupyter-notebook-tips-tricks-shortcuts/
 - https://towardsdatascience.com/optimizing-jupyter-notebook-tips-tricks-and-nbextensions-26d75d502663
 
-# General `Python`
+## General `Python`
 Silence warnings
 ```python
 import warnings
@@ -297,6 +297,24 @@ file = subprocess.call(shlex.split(cmd))
 ```
 (`-y` = assume yes on all queries.)
 
+## Pandas
+If you have a `DataFrame` with a column where the data cells consists of lists/arrays and you want to split the lists into columns:
+
+```python
+df.VARIABEL.apply(pd.Series)
+```
+
+## Matplotlib
+When plotting normalized bar charts/histograms and you want to show the %-value:
+
+```python
+fig, ax1 = plt.subplots()
+ax1.hist(values1, 50, facecolor='blue', alpha=0.9, label="Sample1",align='left')
+y_vals = ax1.get_yticks()
+ax1.set_yticklabels(['{:3.0f}%'.format(x * 100) for x in y_vals])
+plt.show()
+```
+
 # R
 
 ## Basic commands
@@ -318,3 +336,29 @@ file = subprocess.call(shlex.split(cmd))
 Set an option before installing: `options(download.file.method = "libcurl")`
 
 Install-cmd: `install.packages("<package>", repos="https://nexus-r.adeo.no/repository/cran.r-project.org/")`
+
+# SQL
+
+# Handling dates
+
+| Cmd                                      | What                                             |
+|------------------------------------------|--------------------------------------------------|
+| `extract(year from user.table.variable)` | Extracting year (or month/day) from a date-field |
+|                                          |                                                  |
+
+# Miscellaneous
+
+Creating temporary table:
+```
+with temp_table_name as (
+	select column1, ...
+	from table1
+	),
+	(
+	<another select statement>
+	)
+select column1, ...
+from temp_table_name
+...
+;
+```
