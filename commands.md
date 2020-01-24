@@ -7,9 +7,9 @@
 - [Emacs](#emacs)
   - [General](#general)
   - [Org-mode](#org-mode)
-    - [Emacs](#emacs-1)
-    - [VSCode](#vscode)
-  - [Markdown](#markdown-1)
+    - [In Emacs](#in-emacs)
+    - [In VSCode](#in-vscode)
+  - [Markdown in Emacs](#markdown-in-emacs)
   - [Magit](#magit)
   - [Miscellaneous links and info](#miscellaneous-links-and-info)
 - [Powershell](#powershell)
@@ -21,6 +21,7 @@
   - [Links to stuff about Jupyter](#links-to-stuff-about-jupyter)
   - [General `Python`](#general-python)
   - [Pandas](#pandas)
+    - [Misc snippets](#misc-snippets)
   - [Matplotlib](#matplotlib)
 - [R](#r)
   - [Basic commands](#basic-commands)
@@ -35,7 +36,7 @@ About versioning code: <https://semver.org>
 
 ## Terminal
 
-```
+```text
 >> diff file1 file2
  gives you the lines that are different in each file, e.g.
  < something something    # this is in file1
@@ -94,7 +95,7 @@ About versioning code: <https://semver.org>
 
 >> tail -n <number>
  show the <number> last lines of sth
- 
+
 >> for i in $files; do sed 1d "$i" >> <new-file>; done
  merge all files listed in $files into one new file.
 
@@ -102,7 +103,7 @@ About versioning code: <https://semver.org>
 
 ## GitHub
 
-```
+```text
 >> git add .
    add all new/changed files to the Git queue
 >> git commit -am '<commit message here>'
@@ -119,7 +120,7 @@ About versioning code: <https://semver.org>
 
 ## Abel
 
-```
+```text
 >> beegfs-ctl --userstats --names --mount=<mount>
    view the file writing load on --mount=/work or --mount=/cluster
 
@@ -174,7 +175,8 @@ Useful(?) web pages about Emacs:
 
 ## Org-mode
 
-### Emacs
+### In Emacs
+
 | How         | What                                                     |
 | ----------- | -------------------------------------------------------- |
 | `C-c c`     | Write new note                                           |
@@ -190,7 +192,8 @@ Useful(?) web pages about Emacs:
 
 Docs: <https://orgmode.org/org.html>
 
-### VSCode
+### In VSCode
+
 | How                  | What                        |
 | -------------------- | --------------------------- |
 | `ctrl+alt+o h`       | insertHeadingRespectContent |
@@ -212,7 +215,7 @@ Docs: <https://orgmode.org/org.html>
 | `ctrl+alt+o v`       | verbose                     |
 | `ctrl+alt+o l`       | literal                     |
 
-## Markdown
+## Markdown in Emacs
 
 | How            | What                                                    |
 | -------------- | ------------------------------------------------------- |
@@ -262,6 +265,12 @@ Profiling functions/commands in Python.
 ```
 
 In `iPython` you can use bash-cmds as `ls`, `pwd`, ...
+
+Locating folder where history etc. is saved:
+
+```python
+ipython locate profile default
+```
 
 ## Keyboard shortcuts in Jupyter
 
@@ -358,7 +367,7 @@ trusted-host=
  files.pythonhosted.org
 ```
 
-Should be placed in `C:users/username/appdata/roaming/pip`.
+Should be placed in `C:/users/username/appdata/roaming/pip`.
 
 Build setuptools project:
 
@@ -389,16 +398,40 @@ If you have a `DataFrame` with a column where the data cells consists of lists/a
 df.VARIABEL.apply(pd.Series)
 ```
 
-| Cmd                                           | What                                                                |
-| --------------------------------------------- | ------------------------------------------------------------------- |
-| `pd.set_option('display.max_colwidth', 1000)` | Set column width (useful when you want to print long strings)       |
-| `pd.set_option('display.width', 400)`         | Print out 400 characters at each line (e.g. when using `df.head()`. |
-| `pd.set_option('display.max_columns', N)`     | Show `N` columns                                                    |
-| `pd.set_option('display.max_rows', N)`        | Show `N` rows                                                       |
+| Cmd                                                                    | What                                                                             |
+| ---------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `pd.set_option('display.max_colwidth', 1000)`                          | Set column width (useful when you want to print long strings)                    |
+| `pd.set_option('display.width', 400)`                                  | Print out 400 characters at each line (e.g. when using `df.head()`.              |
+| `pd.set_option('display.max_columns', N)`                              | Show `N` columns                                                                 |
+| `pd.set_option('display.max_rows', N)`                                 | Show `N` rows                                                                    |
+| `df.columns.str.endswith('abc')`                                       | Select columns where the name ends with `abc` (`startswith` is the "other" way.) |
+| `pd.cut( df['col'], [0, 1, 12, ...], labels=['[0-1)', '[1-12)', ...])` | Bucket values in column.                                                         |
+|                                                                        |                                                                                  |
+
+Datatypes:
+| dtype         | python type  | numpy type                                                     |
+| ------------- | ------------ | -------------------------------------------------------------- |
+| object        | str or mixed | string_, unicode_, mixed types                                 |
+| int64         | int          | int_, int8, int16, int32, int64, uint8, uint16, uint32, uint64 |
+| float64       | float        | float_, float16, float32, float64                              |
+| bool          | bool         | bool_                                                          |
+| datetime64    | NA           | datetime64[ns]                                                 |
+| timedelta[ns] | NA           | NA                                                             |
+| category      | NA           | NA                                                             |
+
+### Misc snippets
+
+Plot stacked bar plot showing the portions of data samples within a set of categories:
+
+```python
+fig, ax = plt.subplots()
+diagnoseskift = df.groupby(['main_var','cat_var']).count()['unique_id'].unstack().div(df.groupby(['main_var','cat_var']).count()['uniqe_id'].unstack().sum(axis=1), axis=0).sort_values(by=0)
+diagnoseskift.plot.bar(figsize=(9,9), width=.9, ax=ax, stacked=True, alpha=.8)
+```
 
 ## Matplotlib
 
-When plotting normalized bar charts/histograms and you want to show the %-value:
+When plotting normalized bar charts/histograms and you want to show percentage points:
 
 ```python
 fig, ax1 = plt.subplots()
@@ -477,7 +510,7 @@ Install-cmd: `install.packages("<package>", repos="https://nexus-r.adeo.no/repos
 | `extract(year from user.table.variable)` | Extracting year (or month/day) from a date-field |
 | `TO_DATE('2003/07/09', 'yyyy/mm/dd')`    | Find date from string                            |
 | `fetch first 100 rows only`              | Only load the first 100 rows in the query        |
-|                                          |
+| `offset N`                               | Load table from `N`-th row and downwards.        |
 
 Creating temporary table:
 
