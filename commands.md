@@ -116,6 +116,8 @@ About versioning code: <https://semver.org>
    Remove file from history, useful when you add files larger than 100MB by accident.
 >> git config --list --show-origin
    Show where config-files for git are saved.
+>> git diff --cached
+   Diff files between the ones that are staged and the one you edit.
 ```
 
 ## Abel
@@ -257,12 +259,13 @@ Docs: <https://magit.vc/manual/magit.html>
 
 ## Profiling
 
-Profiling functions/commands in Python.
+Profiling functions/commands in Python: <https://ipython.readthedocs.io/en/stable/interactive/magics.html>
 
-```python
->> %prun <command>
-   profiling <command>
-```
+ | Cmd               | Misc                                   |
+ | ----------------- | -------------------------------------- |
+ | `%prun <command>` |
+ | `%%time`          |
+ | `%%timeit`        | Runs cmd many times and calc. the mean |
 
 In `iPython` you can use bash-cmds as `ls`, `pwd`, ...
 
@@ -391,6 +394,13 @@ file = subprocess.call(shlex.split(cmd))
 (`-y` = assume yes on all queries.)
 
 ## Pandas
+
+To set default options in `Pandas`, go to `~/.ipython/profile_default/startup/` and create a file named `00-pandas.py` and set your options, e.g.:
+
+```python
+import pandas as pd
+pd.set_option('display.max_columns', N)
+```
 
 If you have a `DataFrame` with a column where the data cells consists of lists/arrays and you want to split the lists into columns:
 
