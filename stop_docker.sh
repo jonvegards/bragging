@@ -1,0 +1,1 @@
+for id in `docker ps | awk 'FNR > 1 {print $1}'`; do docker stop $id; done
