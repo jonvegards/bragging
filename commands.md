@@ -1,6 +1,8 @@
 - [Commands that are handy to remember](#commands-that-are-handy-to-remember)
   - [Terminal](#terminal)
+    - [`ls` command flags](#ls-command-flags)
   - [GitHub](#github)
+    - [Delete commit history after `push`](#delete-commit-history-after-push)
   - [Abel](#abel)
 - [Markdown](#markdown)
   - [Including stuff in markdown-file](#including-stuff-in-markdown-file)
@@ -23,6 +25,8 @@
   - [Pandas](#pandas)
     - [Misc snippets](#misc-snippets)
   - [Matplotlib](#matplotlib)
+  - [Plotly](#plotly)
+  - [Useful cmds in Kubeflow](#useful-cmds-in-kubeflow)
 - [R](#r)
   - [Basic commands](#basic-commands)
   - [Installing packages](#installing-packages)
@@ -80,11 +84,11 @@ About versioning code: <https://semver.org>
  gives number of files in that folder. 'wc' counts every line of the
  output to 'ls -l' so remember to subtract 1.
 
->> lscpu
- get info about CPU
-
 >> ls -l <file or directory> | wc -l
  count lines of file/number of files in directory
+
+>> lscpu
+ get info about CPU
 
 >> man <sth>
  show the manual to a command
@@ -100,6 +104,15 @@ About versioning code: <https://semver.org>
  merge all files listed in $files into one new file.
 
 ```
+
+### `ls` command flags
+
+| Option | What                           |
+| ------ | ------------------------------ |
+| `S`    | Sort files by size             |
+| `h`    | Human readable file size       |
+| `t`    | Sort by file modification time |
+| `r`    | Reverse sorting                |
 
 ## GitHub
 
@@ -118,7 +131,31 @@ About versioning code: <https://semver.org>
    Show where config-files for git are saved.
 >> git diff --cached
    Diff files between the ones that are staged and the one you edit.
+>> git remote update
+   Download changes from Github to check if a `git pull` is needed.
 ```
+
+### Delete commit history after `push`
+
+Reset to previous commit first:
+
+```bash
+git reset --hard <commit id>
+```
+
+Then push the changes:
+
+```bash
+git push -f origin master
+```
+
+Finally, delete from the `reflog`:
+
+```bash
+git reflog delete <reflog-id>
+```
+
+The reflog-id is of the type `HEAD@{1}`.
 
 ## Abel
 
@@ -416,7 +453,7 @@ df.VARIABEL.apply(pd.Series)
 | `pd.set_option('display.max_rows', N)`                                 | Show `N` rows                                                                    |
 | `df.columns.str.endswith('abc')`                                       | Select columns where the name ends with `abc` (`startswith` is the "other" way.) |
 | `pd.cut( df['col'], [0, 1, 12, ...], labels=['[0-1)', '[1-12)', ...])` | Bucket values in column.                                                         |
-|                                                                        |                                                                                  |
+| `print(df.to_string())`                                                | Dataframe is printed a bit nicer.                                                |
 
 Datatypes:
 | dtype         | python type  | numpy type                                                     |
@@ -490,6 +527,62 @@ Check availble fonts:
 ```python
 matplotlib.font_manager.findSystemFonts(fontpaths=None, fontext='ttf')
 ```
+
+## Plotly
+
+Add logo to plot:
+
+If using a file locally: load image in Python:
+
+```python
+import base64
+with open("/path/to/file.png", "rb") as image_file:
+    encoded_string = base64.b64encode(image_file.read()).decode()
+#add the prefix that plotly will want when using the string as source
+encoded_image = "data:image/png;base64," + encoded_string
+```
+
+If using a file on the web, simply add the URL to `source` and then add this to `fig.update_layout()`:
+
+```python
+images=[dict(source=encoded_image,
+            xref="paper", yref="paper",
+            x=1, y=1.05,
+            sizex=0.2, sizey=0.2,
+            xanchor="right", yanchor="bottom"
+            )]
+```
+
+## Useful cmds in Kubeflow
+
+- Save a data on S3:
+
+```python
+requests.put("<URL-to-S3>/{}/{}".format(mappe,filnavn),
+         data=data,
+         headers={
+         "S3-ACCESS-KEY": os.environ["S3_ACCESSKEY_HELSE_PROD"],
+         "S3-SECRET-KEY": os.environ["S3_SECRETKEY_HELSE_PROD"],
+         })
+```
+
+Note: if data is a dataframe you should write `data.to_csv(index=False)`.
+
+- Fetch data from S3:
+
+```python
+d = requests.get("<URL-to-S3>/<mappe>/<filnavn>,
+                  headers={
+                     "S3-ACCESS-KEY": os.environ["S3_ACCESSKEY_HELSE_PROD"],
+                     "S3-SECRET-KEY": os.environ["S3_SECRETKEY_HELSE_PROD"],
+                  })
+# Then you can fetch the data with:
+data = d.text()
+# ...or
+data = d.content()
+```
+
+Note: if the data is a CSV-file you must use `df = pd.read_csv(StringIO(data))`
 
 # R
 
